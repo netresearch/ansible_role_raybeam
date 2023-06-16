@@ -1,0 +1,13 @@
+---
+- name: Prepare
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update cache
+      ansible.builtin.apt:
+        update_cache: true
+
+  roles:
+    - geerlingguy.pip
+    - geerlingguy.docker

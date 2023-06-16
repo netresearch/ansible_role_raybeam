@@ -1,0 +1,11 @@
+---
+- name: Check Prerequisites for Raybeam in Docker
+  ansible.builtin.import_tasks: prepare_host.yml
+  tags:
+    - raybeam-setup
+    - raybeam-prepare-host
+
+- name: Run Raybeam in Docker container
+  ansible.builtin.import_tasks: docker_raybeam.yml
+  tags:
+    - raybeam-setup

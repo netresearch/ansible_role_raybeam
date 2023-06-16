@@ -1,0 +1,14 @@
+---
+raybeam_port: "8080"
+raybeam_ldap_server: "ldap://localhost:389"
+raybeam_ldap_base_dn: "DC=example,DC=com"
+raybeam_ldap_admin_group_dn: "CN=Raybeam Admins,OU=Groups,DC=example,DC=com"
+raybeam_ldap_readonly_user: "readonly"
+raybeam_ldap_readonly_password: "readonly"
+
+raybeam_database_directory: "/srv/raybeam"
+raybeam_database_filename: "db.bolt"
+
+raybeam_container_image: "ghcr.io/netresearch/raybeam:latest"
+raybeam_container_networks: []
+raybeam_container_labels: {}

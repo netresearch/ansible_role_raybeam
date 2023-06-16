@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    raybeam_container_image_tag: latest
+  tasks:
+    - name: Log into our Docker registry
+      community.docker.docker_login:
+        registry_url: "https://ghcr.io"
+        username: "{{ docker_registry_username }}"
+        password: "{{ docker_registry_password }}"
+      when: docker_registry_username is defined and docker_registry_password is defined
+
+    - name: "Include netresearch.raybeam"
+      ansible.builtin.include_role:
+        name: "netresearch.raybeam"

@@ -1,0 +1,34 @@
+---
+- name: Start Raybeam service in Docker
+  community.general.docker_container:
+    name: "{{ raybeam_container_name }}"
+    image: "{{ raybeam_container_image }}"
+    pull: true
+    state: started
+    detach: true
+    recreate: "{{ image.changed }}"
+    command:
+      - "raybeam"
+      - "serve"
+      - "-d"
+      - "/raybeam/data/{{ raybeam_database_filename }}"
+      - "-s"
+      - "{{ raybeam_ldap_server }}"
+      - "-b"
+      - "{{ raybeam_ldap_base_dn }}"
+      - "-u"
+      - "{{ raybeam_ldap_readonly_user }}"
+      - "-p"
+      - "{{ raybeam_ldap_readonly_password }}"
+      - "-g"
+      - "{{ raybeam_ldap_admin_group_dn }}"
+    networks: "{{ raybeam_container_networks }}"
+    volumes:
+      - "{{ raybeam_database_directory }}:/raybeam/data"
+      - "/etc/ssl/certs:/etc/ssl/certs"
+    ports: "{{ [raybeam_port + ':8080'] if raybeam_port != '0' else [] }}"
+    labels: "{{ raybeam_container_labels }}"
+    container_default_behavior: no_defaults
+    command_handling: correct
+    restart_policy: unless-stopped
+  ignore_errors: "{{ ansible_check_mode }}"

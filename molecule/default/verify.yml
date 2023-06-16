@@ -1,0 +1,31 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Get status of Raybeam container
+      community.docker.docker_container_info:
+        name: raybeam
+      register: output
+
+    - name: Docker asserts
+      ansible.builtin.assert:
+        that:
+          - "output.exists"
+          - "output.container.State.Status == 'running'"
+
+    - name: Check that Raybeam returns it's version
+      ansible.builtin.uri:
+        url: http://localhost:8080/info
+        return_content: true
+      register: http
+
+    - name: Raybeam asserts
+      ansible.builtin.assert:
+        that:
+          - "http.status == 200"
+
+    - name: Print Raybeam version
+      ansible.builtin.debug:
+        msg: "{{ http.content }}"

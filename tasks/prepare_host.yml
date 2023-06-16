@@ -1,0 +1,16 @@
+---
+- name: Ensure Docker service exists and is started
+  ansible.builtin.service:
+    name: docker
+    state: started
+  register: docker_status
+  ignore_errors: true
+
+- name: Inform user about Docker service status
+  ansible.builtin.fail:
+    msg: >
+      The Docker daemon is not installed and running. Please install Docker
+      and start the Docker daemon before running this role.
+  when: >
+    docker_status.failed | bool or
+    docker_status.state != "started"
