@@ -9,7 +9,7 @@ raybeam_ldap_readonly_password: "readonly"
 raybeam_database_directory: "/srv/raybeam"
 raybeam_database_filename: "db.bolt"
 
-raybeam_container_image: "ghcr.io/netresearch/raybeam:latest"
+raybeam_container_image: "ghcr.io/netresearch/raybeam:master"
 raybeam_container_name: "raybeam"
 raybeam_container_networks: []
 raybeam_container_labels: {}
