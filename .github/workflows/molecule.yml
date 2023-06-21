@@ -1,0 +1,24 @@
+on: push
+
+jobs:
+  molecule:
+    # macOS instances have Vagrant and VirtualBox preinstalled and VT-x enabled.
+    # More: https://github.com/actions/runner-images/discussions/7191
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          cache: pip
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('molecule/default/molecule.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
+
+      - run: python3 -m pip install ansible molecule yamllint molecule-vagrant
+
+      - run: molecule test
