@@ -6,7 +6,6 @@
     pull: true
     state: started
     detach: true
-    recreate: "{{ image.changed }}"
     command:
       - "raybeam"
       - "serve"
